@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eduford University</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #1a3c5e; --accent: #f4a623; --accent2: #e05c2a;
+  --bg: #f8f6f1; --white: #ffffff; --text: #1a1a2e;
+  --muted: #5a6a7a; --border: #ddd9ce; --nav-height: 72px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+/* PAGE SYSTEM */
+.page { display: none; }
+.page.active { display: block; }
+
+/* NAVBAR */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--primary); height: var(--nav-height);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%; box-shadow: 0 2px 20px rgba(0,0,0,0.18);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+.nav-logo-icon {
+  width: 44px; height: 44px; background: var(--accent); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--primary);
+}
+.nav-logo-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--white); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: rgba(255,255,255,0.8); font-size: 15px; font-weight: 500;
+  transition: color 0.2s; position: relative; cursor: pointer;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0); transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after, .nav-links a.active-link::after { transform: scaleX(1); }
+.nav-links a.active-link { color: var(--white); }
+.hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; cursor: pointer; width: 36px; height: 36px;
+  padding: 4px; border-radius: 8px; transition: background 0.2s;
+}
+.hamburger:hover { background: rgba(255,255,255,0.1); }
+.hamburger .bar1, .hamburger .bar2, .hamburger .bar3 {
+  width: 26px; height: 2px; background: white; border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+/* X state */
+.hamburger.open .bar1 { transform: translateY(7px) rotate(45deg); }
+.hamburger.open .bar2 { opacity: 0; transform: scaleX(0); }
+.hamburger.open .bar3 { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-height); left: 0; right: 0; z-index: 999;
+  background: var(--primary); padding: 20px 5% 28px; flex-direction: column; gap: 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  max-height: calc(100vh - var(--nav-height)); overflow-y: auto;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: rgba(255,255,255,0.85); text-decoration: none; font-size: 16px;
+  font-weight: 500; cursor: pointer; padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; gap: 10px; transition: color 0.2s, padding-left 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--accent); padding-left: 6px; }
+
+/* SHARED */
+section { padding: 90px 5%; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-tag {
+  display: inline-block; background: rgba(244,166,35,0.12); color: var(--accent2);
+  padding: 5px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700; color: var(--primary); margin-bottom: 12px;
+}
+.section-subtitle { color: var(--muted); max-width: 540px; font-size: 16px; margin-bottom: 56px; }
+
+/* PAGE HERO (inner pages) */
+.page-hero {
+  padding: 120px 5% 70px; text-align: center;
+  background: linear-gradient(135deg, #1a3c5e 0%, #0d2238 100%);
+}
+.page-hero-tag {
+  display: inline-block; background: rgba(244,166,35,0.18); color: var(--accent);
+  padding: 6px 18px; border-radius: 30px; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px;
+}
+.page-hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px);
+  font-weight: 700; color: white; margin-bottom: 16px;
+}
+.page-hero p { color: rgba(255,255,255,0.72); font-size: 17px; max-width: 560px; margin: 0 auto; }
+
+/* BREADCRUMB */
+.breadcrumb {
+  background: var(--white); padding: 14px 5%; border-bottom: 1px solid var(--border);
+  font-size: 14px; color: var(--muted);
+}
+.breadcrumb span { color: var(--primary); cursor: pointer; }
+.breadcrumb span:hover { text-decoration: underline; }
+
+/* ===================== HOME PAGE ===================== */
+#home-hero {
+  min-height: 100vh; padding-top: var(--nav-height);
+  background: linear-gradient(135deg, #1a3c5e 0%, #0d2238 55%, #1a3c5e 100%);
+  display: flex; align-items: center; position: relative; overflow: hidden;
+}
+#home-hero::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px; background: rgba(244,166,35,0.07); border-radius: 50%;
+}
+.hero-inner { max-width: 1200px; margin: 0 auto; padding: 80px 5%; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block; background: rgba(244,166,35,0.15); color: var(--accent);
+  border: 1px solid rgba(244,166,35,0.3); padding: 6px 18px; border-radius: 30px;
+  font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(38px, 6vw, 72px);
+  font-weight: 700; color: white; line-height: 1.15; margin-bottom: 24px; max-width: 700px;
+}
+.hero-title span { color: var(--accent); }
+.hero-subtitle { font-size: 17px; color: rgba(255,255,255,0.72); max-width: 520px; margin-bottom: 44px; }
+.hero-cta {
+  display: inline-block; background: var(--accent); color: var(--primary);
+  padding: 15px 38px; border-radius: 50px; font-weight: 700; font-size: 15px;
+  text-decoration: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 24px rgba(244,166,35,0.35);
+}
+.hero-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(244,166,35,0.45); }
+.hero-stats { display: flex; gap: 48px; margin-top: 64px; flex-wrap: wrap; }
+.hero-stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--accent); }
+.hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+/* COURSES SECTION (home) */
+#home-courses { background: var(--white); }
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+.course-card {
+  background: var(--bg); border-radius: 20px; padding: 36px 32px;
+  border: 1.5px solid var(--border); transition: transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden; cursor: pointer;
+}
+.course-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent);
+}
+.course-card:nth-child(2)::before { background: var(--accent2); }
+.course-card:nth-child(3)::before { background: #2a7d5e; }
+.course-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(26,60,94,0.12); }
+.course-icon {
+  width: 56px; height: 56px; background: var(--primary); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 24px;
+}
+.course-card:nth-child(2) .course-icon { background: var(--accent2); }
+.course-card:nth-child(3) .course-icon { background: #2a7d5e; }
+.course-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 14px; }
+.course-desc { color: var(--muted); font-size: 15px; line-height: 1.75; }
+.course-link { display: inline-block; margin-top: 24px; color: var(--accent2); font-weight: 600; font-size: 14px; cursor: pointer; }
+.course-link:hover { text-decoration: underline; }
+
+/* CAMPUS */
+#home-campus { background: var(--bg); }
+.campus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+.campus-card { border-radius: 18px; overflow: hidden; position: relative; cursor: pointer; transition: transform 0.25s; }
+.campus-card:hover { transform: scale(1.03); }
+.campus-img-placeholder {
+  width: 100%; height: 220px;
+  background: linear-gradient(145deg, var(--primary), #2a5580);
+  display: flex; align-items: center; justify-content: center; font-size: 48px;
+}
+.campus-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  padding: 30px 16px 14px;
+  font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: white;
+}
+
+/* FACILITIES */
+#home-facilities { background: var(--primary); }
+#home-facilities .section-title { color: white; }
+#home-facilities .section-tag { background: rgba(244,166,35,0.2); color: var(--accent); }
+#home-facilities .section-subtitle { color: rgba(255,255,255,0.65); }
+.facilities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.facility-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 36px 28px; transition: background 0.25s; }
+.facility-card:hover { background: rgba(255,255,255,0.12); }
+.facility-icon { font-size: 38px; margin-bottom: 20px; }
+.facility-name { font-family: 'Playfair Display', serif; font-size: 20px; color: white; margin-bottom: 12px; }
+.facility-desc { color: rgba(255,255,255,0.65); font-size: 15px; }
+
+/* TESTIMONIALS */
+#home-testimonials { background: var(--white); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; }
+.testimonial-card {
+  background: var(--bg); border-radius: 20px; padding: 36px 32px;
+  border: 1.5px solid var(--border); position: relative;
+}
+.testimonial-card::before {
+  content: '"'; position: absolute; top: 20px; right: 28px;
+  font-family: 'Playfair Display', serif; font-size: 80px; color: var(--accent);
+  line-height: 1; opacity: 0.3;
+}
+.testimonial-text { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 28px; }
+.testimonial-author { display: flex; align-items: center; gap: 14px; }
+.author-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: white;
+}
+.author-name { font-weight: 600; color: var(--primary); font-size: 15px; }
+.author-role { font-size: 13px; color: var(--muted); }
+.stars { color: var(--accent); font-size: 14px; margin-bottom: 8px; }
+
+/* HOME CTA */
+#home-cta { background: linear-gradient(135deg, var(--accent2), var(--accent)); padding: 80px 5%; text-align: center; }
+.cta-inner { max-width: 650px; margin: 0 auto; }
+.cta-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: white; margin-bottom: 16px; }
+.cta-sub { color: rgba(255,255,255,0.85); font-size: 16px; margin-bottom: 36px; }
+.cta-btn {
+  display: inline-block; background: white; color: var(--accent2);
+  padding: 15px 44px; border-radius: 50px; font-weight: 700; font-size: 15px;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2); border: none;
+}
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(0,0,0,0.25); }
+
+/* ===================== COURSE DETAIL PAGE ===================== */
+.course-detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+.course-detail-content h2 {
+  font-family: 'Playfair Display', serif; font-size: 30px; color: var(--primary); margin-bottom: 16px;
+}
+.course-detail-content p { color: var(--muted); font-size: 16px; line-height: 1.85; margin-bottom: 20px; }
+.highlight-list { list-style: none; margin: 24px 0; }
+.highlight-list li {
+  padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 12px;
+  color: var(--muted); font-size: 15px;
+}
+.highlight-list li::before { content: '✓'; color: var(--accent2); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.course-sidebar { background: var(--white); border-radius: 20px; padding: 32px; border: 1.5px solid var(--border); position: sticky; top: 90px; }
+.course-sidebar h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin-bottom: 24px; }
+.sidebar-stat { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.sidebar-stat:last-of-type { border-bottom: none; }
+.sidebar-stat-label { font-size: 14px; color: var(--muted); }
+.sidebar-stat-value { font-weight: 600; color: var(--primary); font-size: 15px; }
+.apply-btn {
+  display: block; width: 100%; margin-top: 28px; background: var(--accent); color: var(--primary);
+  padding: 15px 0; border-radius: 50px; font-weight: 700; font-size: 15px; text-align: center;
+  border: none; cursor: pointer; transition: transform 0.2s;
+}
+.apply-btn:hover { transform: translateY(-2px); }
+.subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+.subject-card {
+  background: var(--white); border-radius: 14px; padding: 20px; border: 1.5px solid var(--border);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.subject-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.subject-icon { font-size: 28px; margin-bottom: 10px; }
+.subject-name { font-weight: 600; color: var(--primary); font-size: 15px; }
+.subject-desc { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+/* ===================== CONTACT PAGE ===================== */
+.contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start; }
+.contact-form { background: var(--white); border-radius: 24px; padding: 44px; border: 1.5px solid var(--border); }
+.contact-form h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--primary); margin-bottom: 8px; }
+.contact-form p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+.form-group { margin-bottom: 22px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text);
+  background: var(--bg); transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,60,94,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.submit-btn {
+  width: 100%; background: var(--primary); color: white; padding: 16px;
+  border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif;
+  font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 8px;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,60,94,0.25); }
+.success-msg {
+  display: none; background: #eafaf1; border: 1.5px solid #2ecc71; border-radius: 12px;
+  padding: 16px 20px; color: #1a7a47; font-weight: 600; font-size: 15px;
+  margin-top: 16px; text-align: center;
+}
+.contact-info { display: flex; flex-direction: column; gap: 24px; }
+.info-card {
+  background: var(--white); border-radius: 18px; padding: 28px; border: 1.5px solid var(--border);
+  display: flex; gap: 18px; align-items: flex-start; transition: transform 0.2s;
+}
+.info-card:hover { transform: translateY(-3px); }
+.info-icon {
+  width: 50px; height: 50px; border-radius: 14px; background: var(--primary);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+}
+.info-title { font-weight: 700; color: var(--primary); font-size: 16px; margin-bottom: 6px; }
+.info-detail { color: var(--muted); font-size: 14px; line-height: 1.65; }
+.map-embed {
+  margin-top: 24px; border-radius: 18px; overflow: hidden; border: 1.5px solid var(--border);
+  background: linear-gradient(135deg, #e8f0f8, #d0e4f7);
+  height: 200px; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px; color: var(--primary);
+}
+.map-embed span { font-size: 40px; }
+.map-embed p { font-weight: 600; font-size: 15px; }
+
+/* FOOTER */
+footer { background: #0d1f30; color: rgba(255,255,255,0.65); padding: 60px 5% 28px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 24px; color: white; margin-bottom: 14px; }
+.footer-brand-desc { font-size: 14px; line-height: 1.8; }
+.footer-col-title { font-weight: 600; color: white; font-size: 15px; margin-bottom: 20px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a { text-decoration: none; color: rgba(255,255,255,0.6); font-size: 14px; transition: color 0.2s; cursor: pointer; }
+.footer-links a:hover { color: var(--accent); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  font-size: 13px;
+}
+.footer-bottom a { color: var(--accent); cursor: pointer; }
+
+/* ===================== ADMIN PAGE ===================== */
+#page-admin { background: var(--bg); }
+.admin-header {
+  background: var(--primary); padding: 100px 5% 40px; color: white;
+}
+.admin-header h1 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 8px; }
+.admin-header p { color: rgba(255,255,255,0.65); font-size: 15px; }
+.admin-body { max-width: 1200px; margin: 0 auto; padding: 48px 5%; }
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.admin-stat-card {
+  background: var(--white); border-radius: 16px; padding: 24px 20px;
+  border: 1.5px solid var(--border); text-align: center;
+}
+.admin-stat-card .num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--primary); }
+.admin-stat-card .lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.admin-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+}
+.admin-toolbar h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); }
+.admin-btn {
+  padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; transition: transform 0.15s;
+}
+.admin-btn:hover { transform: translateY(-2px); }
+.btn-export { background: var(--accent); color: var(--primary); }
+.btn-clear { background: #fee2e2; color: #b91c1c; }
+.admin-table-wrap { background: var(--white); border-radius: 20px; border: 1.5px solid var(--border); overflow: hidden; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.admin-table thead { background: var(--primary); color: white; }
+.admin-table th { padding: 14px 16px; text-align: left; font-weight: 600; white-space: nowrap; }
+.admin-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.admin-table tbody tr:last-child { border-bottom: none; }
+.admin-table tbody tr:hover { background: #f0f4f8; }
+.admin-table td { padding: 14px 16px; color: var(--text); vertical-align: top; }
+.admin-table td.muted { color: var(--muted); font-size: 13px; }
+.badge {
+  display: inline-block; padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.badge-ug { background: #dbeafe; color: #1d4ed8; }
+.badge-degree { background: #fef3c7; color: #92400e; }
+.badge-pg { background: #d1fae5; color: #065f46; }
+.badge-online { background: #ede9fe; color: #5b21b6; }
+.badge-general { background: #f1f5f9; color: #475569; }
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state p { font-size: 16px; }
+.admin-login {
+  max-width: 420px; margin: 80px auto; background: var(--white);
+  border-radius: 24px; padding: 44px; border: 1.5px solid var(--border); text-align: center;
+}
+.admin-login h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--primary); margin-bottom: 8px; }
+.admin-login p { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+.admin-login input {
+  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; margin-bottom: 16px;
+  background: var(--bg); outline: none; transition: border-color 0.2s;
+}
+.admin-login input:focus { border-color: var(--primary); }
+.admin-login button {
+  width: 100%; background: var(--primary); color: white; padding: 14px;
+  border: none; border-radius: 50px; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: transform 0.2s;
+}
+.admin-login button:hover { transform: translateY(-2px); }
+.login-error { color: #dc2626; font-size: 13px; margin-top: 10px; display: none; }
+.delete-btn {
+  background: #fee2e2; color: #b91c1c; border: none; border-radius: 8px;
+  padding: 5px 10px; font-size: 12px; cursor: pointer; font-weight: 600;
+}
+.delete-btn:hover { background: #fecaca; }
+
+/* BACK TO TOP */
+#backTop {
+  position: fixed; bottom: 30px; right: 30px; z-index: 999;
+  width: 44px; height: 44px; background: var(--accent); border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(244,166,35,0.4);
+  font-size: 20px; color: var(--primary); font-weight: 700; transition: transform 0.2s;
+}
+#backTop:hover { transform: translateY(-3px); }
+#backTop.show { display: flex; }
+
+/* ===================== FULLY MOBILE RESPONSIVE ===================== */
+@media (max-width: 1024px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+@media (max-width: 900px) {
+  .course-detail-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .admin-table-wrap { overflow-x: auto; }
+  .admin-table { min-width: 700px; }
+  .course-sidebar { position: static; }
+}
+@media (max-width: 768px) {
+  /* Navbar */
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .nav-logo-text { font-size: 18px; }
+
+  /* Hero */
+  .hero-inner { padding: 60px 5%; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-num { font-size: 28px; }
+
+  /* Sections */
+  section { padding: 60px 5%; }
+  .section-subtitle { margin-bottom: 36px; }
+
+  /* Campus grid */
+  .campus-grid { grid-template-columns: repeat(2, 1fr); }
+  .campus-img-placeholder { height: 160px; font-size: 36px; }
+
+  /* Courses grid */
+  .courses-grid { grid-template-columns: 1fr; }
+
+  /* Facilities */
+  .facilities-grid { grid-template-columns: 1fr; }
+
+  /* Subjects grid */
+  .subjects-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Testimonials */
+  .testimonials-grid { grid-template-columns: 1fr; }
+
+  /* Contact form */
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form { padding: 28px 20px; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+
+  /* Admin */
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+  .admin-toolbar { flex-direction: column; align-items: flex-start; }
+  .admin-toolbar div { flex-wrap: wrap; }
+  .admin-body { padding: 28px 5%; }
+  .admin-header { padding: 90px 5% 28px; }
+  .admin-header h1 { font-size: 26px; }
+
+  /* Page hero */
+  .page-hero { padding: 100px 5% 50px; }
+
+  /* CTA */
+  #home-cta { padding: 60px 5%; }
+}
+@media (max-width: 480px) {
+  /* Navbar */
+  .nav-logo-text { display: none; }
+
+  /* Hero */
+  .hero-stats { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+  .hero-stat-num { font-size: 24px; }
+
+  /* Campus */
+  .campus-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Subjects */
+  .subjects-grid { grid-template-columns: 1fr; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
+
+  /* Admin */
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+  .admin-login { margin: 40px auto; padding: 28px 20px; }
+
+  /* Back to top */
+  #backTop { bottom: 20px; right: 16px; width: 40px; height: 40px; font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-icon">E</div>
+    <span class="nav-logo-text">Eduford</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" data-page="home">Home</a></li>
+    <li><a onclick="showPage('ug')" data-page="ug">Courses</a></li>
+    <li><a onclick="scrollToSection('home','home-campus')">Campus</a></li>
+    <li><a onclick="scrollToSection('home','home-facilities')">Facilities</a></li>
+    <li><a onclick="scrollToSection('home','home-testimonials')">About</a></li>
+    <li><a onclick="showPage('contact')" data-page="contact">Contact</a></li>
+    <li><a onclick="showPage('admin')" data-page="admin" style="color:var(--accent);">⚙ Admin</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span class="bar1"></span>
+    <span class="bar2"></span>
+    <span class="bar3"></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home');closeMenu()">🏠 Home</a>
+  <a onclick="showPage('ug');closeMenu()">📚 Courses</a>
+  <a onclick="scrollToSection('home','home-campus');closeMenu()">🏛️ Campus</a>
+  <a onclick="scrollToSection('home','home-facilities');closeMenu()">⚽ Facilities</a>
+  <a onclick="scrollToSection('home','home-testimonials');closeMenu()">👥 About</a>
+  <a onclick="showPage('contact');closeMenu()">✉️ Contact</a>
+  <a onclick="showPage('admin');closeMenu()" style="color:var(--accent);">⚙️ Admin</a>
+</div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div id="home-hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🎓 Admissions Open 2025–26</div>
+      <h1 class="hero-title">Inspiring Minds,<br><span>Transforming Lives</span></h1>
+      <p class="hero-subtitle">Using advanced quality scoring algorithms and Machine Learning, we ensure you receive the finest education from our top-quality faculty and world-class infrastructure.</p>
+      <div class="hero-cta" onclick="showPage('ug')">Explore Courses</div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num">15,000+</div><div class="hero-stat-label">Students Enrolled</div></div>
+        <div><div class="hero-stat-num">98%</div><div class="hero-stat-label">Placement Rate</div></div>
+        <div><div class="hero-stat-num">6</div><div class="hero-stat-label">Global Campuses</div></div>
+        <div><div class="hero-stat-num">25+</div><div class="hero-stat-label">Years of Excellence</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courses -->
+  <section id="home-courses">
+    <div class="section-inner">
+      <div class="section-tag">What We Offer</div>
+      <h2 class="section-title">Courses We Offer</h2>
+      <p class="section-subtitle">Click a course to explore subjects, duration, fees and more.</p>
+      <div class="courses-grid">
+        <div class="course-card" onclick="showPage('ug')">
+          <div class="course-icon">🎓</div>
+          <h3 class="course-name">Under Graduate</h3>
+          <p class="course-desc">Embark on a transformative undergraduate journey that blends academic rigor with practical experience across arts, science, commerce and technology.</p>
+          <div class="course-link">View details →</div>
+        </div>
+        <div class="course-card" onclick="showPage('degree')">
+          <div class="course-icon">📜</div>
+          <h3 class="course-name">Degree</h3>
+          <p class="course-desc">Earn a globally recognized degree designed in collaboration with industry leaders to ensure maximum relevance and real-world applicability.</p>
+          <div class="course-link">View details →</div>
+        </div>
+        <div class="course-card" onclick="showPage('pg')">
+          <div class="course-icon">🏛️</div>
+          <h3 class="course-name">Post Graduate</h3>
+          <p class="course-desc">Advance your expertise with our PG programs offering deep specialization, research opportunities and mentorship from industry experts.</p>
+          <div class="course-link">View details →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus -->
+  <section id="home-campus">
+    <div class="section-inner">
+      <div class="section-tag">Our Presence</div>
+      <h2 class="section-title">Our Global Campus</h2>
+      <p class="section-subtitle">Six thriving campuses across India, bringing world-class education closer to you.</p>
+      <div class="campus-grid">
+        <div class="campus-card"><div class="campus-img-placeholder">🏙️</div><div class="campus-label">Mumbai</div></div>
+        <div class="campus-card"><div class="campus-img-placeholder">🕌</div><div class="campus-label">Agra</div></div>
+        <div class="campus-card"><div class="campus-img-placeholder">🌿</div><div class="campus-label">Uttar Pradesh</div></div>
+        <div class="campus-card"><div class="campus-img-placeholder">🏭</div><div class="campus-label">Kanpur</div></div>
+        <div class="campus-card"><div class="campus-img-placeholder">🌺</div><div class="campus-label">Bangalore</div></div>
+        <div class="campus-card"><div class="campus-img-placeholder">🌉</div><div class="campus-label">Kolkata</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facilities -->
+  <section id="home-facilities">
+    <div class="section-inner">
+      <div class="section-tag">Campus Life</div>
+      <h2 class="section-title">Our Facilities</h2>
+      <p class="section-subtitle">State-of-the-art infrastructure designed to nurture your growth, creativity and well-being.</p>
+      <div class="facilities-grid">
+        <div class="facility-card"><div class="facility-icon">📚</div><h3 class="facility-name">World Class Library</h3><p class="facility-desc">Access over 200,000 volumes, digital journals, research papers, and 24/7 reading rooms designed for deep learning.</p></div>
+        <div class="facility-card"><div class="facility-icon">⚽</div><h3 class="facility-name">Largest Play Ground</h3><p class="facility-desc">Multi-sport arenas with professional-grade courts, tracks, and grounds — because a fit body fuels a sharp mind.</p></div>
+        <div class="facility-card"><div class="facility-icon">🍽️</div><h3 class="facility-name">Tasty and Healthy Food</h3><p class="facility-desc">Our cafeteria serves nutritious, chef-curated meals with multiple cuisine options to keep you energized all day.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="home-testimonials">
+    <div class="section-inner">
+      <div class="section-tag">Student Stories</div>
+      <h2 class="section-title">What Our Students Say</h2>
+      <p class="section-subtitle">Real words from our community of over 15,000 students across all campuses.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">The education I received here transformed not just my career but my worldview. The faculty are incredibly supportive, the resources are top-notch, and the campus culture encourages curiosity every single day.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">LK</div>
+            <div><div class="author-name">Laiba Khan</div><div class="author-role">B.Tech, Computer Science</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">Joining Eduford was the best decision I ever made. The placement support, industry connections, and quality of teaching gave me confidence to land my dream job before I even graduated.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">AK</div>
+            <div><div class="author-name">Aisha Khan</div><div class="author-role">MBA, Business Administration</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="home-cta">
+    <div class="cta-inner">
+      <h2 class="cta-title">Enroll for Our Various Online Courses</h2>
+      <p class="cta-sub">Take the next step in your academic journey. Our admissions team is ready to guide you every step of the way.</p>
+      <button class="cta-btn" onclick="showPage('contact')">Contact Us Today</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Eduford University</div>
+          <p class="footer-brand-desc">Committed to inspiring minds and transforming lives through world-class education, research and innovation. Building leaders for tomorrow.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Quick Links</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('home')">Home</a></li>
+            <li><a onclick="showPage('ug')">Courses</a></li>
+            <li><a onclick="scrollToSection('home','home-campus')">Campus</a></li>
+            <li><a onclick="scrollToSection('home','home-facilities')">Facilities</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Programs</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('ug')">Under Graduate</a></li>
+            <li><a onclick="showPage('degree')">Degree Courses</a></li>
+            <li><a onclick="showPage('pg')">Post Graduate</a></li>
+            <li><a onclick="showPage('contact')">Online Courses</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links">
+            <li><a>📍 Mumbai, India</a></li>
+            <li><a>📞 +91 98765 43210</a></li>
+            <li><a onclick="showPage('contact')">✉️ info@eduford.edu</a></li>
+            <li><a>🌐 www.eduford.edu</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Made with ❤️ by Tech Code — All Rights Reserved © 2025</span>
+        <span><a>Privacy Policy</a> &nbsp;·&nbsp; <a>Terms of Service</a></span>
+      </div>
+    </div>
+  </footer>
+</div><!-- end home page -->
+
+<!-- ==================== UNDER GRADUATE PAGE ==================== -->
+<div id="page-ug" class="page">
+  <div class="page-hero">
+    <div class="page-hero-tag">Undergraduate Programs</div>
+    <h1>Under Graduate Courses</h1>
+    <p>Begin your academic journey with programs designed to build a strong foundation and open doors to limitless career paths.</p>
+  </div>
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Home</span> &rsaquo; Courses &rsaquo; Under Graduate
+  </div>
+  <section style="padding-top:60px;">
+    <div class="section-inner">
+      <div class="course-detail-grid">
+        <div class="course-detail-content">
+          <h2>About the Program</h2>
+          <p>Our Undergraduate programs span 3 to 4 years and are crafted to provide students with a perfect blend of theoretical knowledge and hands-on practice. Whether you're passionate about technology, business, arts, or science — we have a program for you.</p>
+          <p>All UG programs are affiliated with the University of Eduford and recognized by the UGC (University Grants Commission), ensuring your degree carries national and international value.</p>
+          <h2 style="margin-top:32px;">Program Highlights</h2>
+          <ul class="highlight-list">
+            <li>Industry-aligned curriculum updated every semester</li>
+            <li>Over 50 specializations to choose from</li>
+            <li>Internship guaranteed in 3rd year at partner companies</li>
+            <li>Exchange programs with 12 international universities</li>
+            <li>Dedicated placement cell with 500+ hiring partners</li>
+            <li>Scholarships available for meritorious students</li>
+          </ul>
+          <h2 style="margin-top:32px;">Available Subjects</h2>
+          <p>Choose from our wide range of undergraduate subjects across disciplines:</p>
+          <div class="subjects-grid">
+            <div class="subject-card"><div class="subject-icon">💻</div><div class="subject-name">Computer Science</div><div class="subject-desc">B.Tech / BCA — 3 to 4 years</div></div>
+            <div class="subject-card"><div class="subject-icon">📊</div><div class="subject-name">Business Administration</div><div class="subject-desc">BBA — 3 years</div></div>
+            <div class="subject-card"><div class="subject-icon">⚗️</div><div class="subject-name">Science & Research</div><div class="subject-desc">B.Sc — 3 years</div></div>
+            <div class="subject-card"><div class="subject-icon">🎨</div><div class="subject-name">Arts & Humanities</div><div class="subject-desc">B.A — 3 years</div></div>
+            <div class="subject-card"><div class="subject-icon">⚙️</div><div class="subject-name">Mechanical Engineering</div><div class="subject-desc">B.Tech — 4 years</div></div>
+            <div class="subject-card"><div class="subject-icon">📐</div><div class="subject-name">Civil Engineering</div><div class="subject-desc">B.Tech — 4 years</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="course-sidebar">
+            <h3>Program Details</h3>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Duration</span><span class="sidebar-stat-value">3 – 4 Years</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Mode</span><span class="sidebar-stat-value">On-Campus / Online</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Eligibility</span><span class="sidebar-stat-value">10+2 Pass (50%+)</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Annual Fees</span><span class="sidebar-stat-value">₹85,000 – ₹1,20,000</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Seats Available</span><span class="sidebar-stat-value">2,400 Seats</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Placement Rate</span><span class="sidebar-stat-value">96%</span></div>
+            <button class="apply-btn" onclick="showPage('contact')">Apply Now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div><div class="footer-brand-name">Eduford University</div><p class="footer-brand-desc">Committed to inspiring minds and transforming lives through world-class education and innovation.</p></div>
+        <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree Courses</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a>📍 Mumbai, India</a></li><li><a>📞 +91 98765 43210</a></li><li><a onclick="showPage('contact')">✉️ Contact Us</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>Made with ❤️ by Tech Code — All Rights Reserved © 2025</span></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ==================== DEGREE PAGE ==================== -->
+<div id="page-degree" class="page">
+  <div class="page-hero">
+    <div class="page-hero-tag">Degree Programs</div>
+    <h1>Degree Courses</h1>
+    <p>Earn a globally recognized degree crafted in partnership with top industry leaders for maximum career impact.</p>
+  </div>
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Home</span> &rsaquo; Courses &rsaquo; Degree
+  </div>
+  <section style="padding-top:60px;">
+    <div class="section-inner">
+      <div class="course-detail-grid">
+        <div class="course-detail-content">
+          <h2>About the Program</h2>
+          <p>Our Degree programs are designed for students who want a structured, comprehensive academic experience with clear career pathways. These programs are recognized globally, making your qualification valuable whether you stay in India or pursue international opportunities.</p>
+          <p>Each degree program integrates live projects, industry mentorship, and certification modules from global tech partners including Google, Microsoft, and IBM.</p>
+          <h2 style="margin-top:32px;">Program Highlights</h2>
+          <ul class="highlight-list">
+            <li>Globally accredited degrees accepted in 40+ countries</li>
+            <li>Live project-based learning from semester 1</li>
+            <li>Certifications from Google, Microsoft, IBM included</li>
+            <li>Dedicated career counseling sessions every month</li>
+            <li>Alumni network of 80,000+ professionals worldwide</li>
+            <li>Hostel and transportation facilities on all campuses</li>
+          </ul>
+          <h2 style="margin-top:32px;">Available Degrees</h2>
+          <div class="subjects-grid">
+            <div class="subject-card"><div class="subject-icon">🖥️</div><div class="subject-name">B.Tech (CS/IT)</div><div class="subject-desc">4 years — Engineering</div></div>
+            <div class="subject-card"><div class="subject-icon">📈</div><div class="subject-name">B.Com (Honours)</div><div class="subject-desc">3 years — Commerce</div></div>
+            <div class="subject-card"><div class="subject-icon">🔬</div><div class="subject-name">B.Sc (Physics/Chem)</div><div class="subject-desc">3 years — Science</div></div>
+            <div class="subject-card"><div class="subject-icon">🏥</div><div class="subject-name">B.Pharma</div><div class="subject-desc">4 years — Pharmacy</div></div>
+            <div class="subject-card"><div class="subject-icon">🏗️</div><div class="subject-name">B.Arch</div><div class="subject-desc">5 years — Architecture</div></div>
+            <div class="subject-card"><div class="subject-icon">📖</div><div class="subject-name">B.Ed</div><div class="subject-desc">2 years — Education</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="course-sidebar">
+            <h3>Program Details</h3>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Duration</span><span class="sidebar-stat-value">2 – 5 Years</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Mode</span><span class="sidebar-stat-value">On-Campus / Hybrid</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Eligibility</span><span class="sidebar-stat-value">10+2 (55%+) / Diploma</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Annual Fees</span><span class="sidebar-stat-value">₹90,000 – ₹1,50,000</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Seats Available</span><span class="sidebar-stat-value">1,800 Seats</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Placement Rate</span><span class="sidebar-stat-value">97%</span></div>
+            <button class="apply-btn" onclick="showPage('contact')">Apply Now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div><div class="footer-brand-name">Eduford University</div><p class="footer-brand-desc">Committed to inspiring minds and transforming lives through world-class education and innovation.</p></div>
+        <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree Courses</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a>📍 Mumbai, India</a></li><li><a>📞 +91 98765 43210</a></li><li><a onclick="showPage('contact')">✉️ Contact Us</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>Made with ❤️ by Tech Code — All Rights Reserved © 2025</span></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ==================== POST GRADUATE PAGE ==================== -->
+<div id="page-pg" class="page">
+  <div class="page-hero">
+    <div class="page-hero-tag">Postgraduate Programs</div>
+    <h1>Post Graduate Courses</h1>
+    <p>Take your expertise to the next level with specialized PG programs designed for professionals and aspiring researchers.</p>
+  </div>
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Home</span> &rsaquo; Courses &rsaquo; Post Graduate
+  </div>
+  <section style="padding-top:60px;">
+    <div class="section-inner">
+      <div class="course-detail-grid">
+        <div class="course-detail-content">
+          <h2>About the Program</h2>
+          <p>Our Postgraduate programs are tailored for those seeking to deepen their knowledge in a specific discipline or transition into a new field. With evening and weekend batches available, working professionals can upskill without pausing their careers.</p>
+          <p>Our PG programs are taught by a mix of full-time professors and visiting faculty from top companies and IITs, giving you the best of academia and industry.</p>
+          <h2 style="margin-top:32px;">Program Highlights</h2>
+          <ul class="highlight-list">
+            <li>Evening & weekend batches for working professionals</li>
+            <li>Research lab access and funding for thesis projects</li>
+            <li>Industry mentors assigned to every student</li>
+            <li>100% scholarship for UG graduates from Eduford</li>
+            <li>Executive networking events with CXOs every quarter</li>
+            <li>Joint degree options with partner universities abroad</li>
+          </ul>
+          <h2 style="margin-top:32px;">Available PG Programs</h2>
+          <div class="subjects-grid">
+            <div class="subject-card"><div class="subject-icon">🧠</div><div class="subject-name">MBA</div><div class="subject-desc">2 years — Business & Management</div></div>
+            <div class="subject-card"><div class="subject-icon">💡</div><div class="subject-name">M.Tech (AI/ML)</div><div class="subject-desc">2 years — Technology</div></div>
+            <div class="subject-card"><div class="subject-icon">📡</div><div class="subject-name">M.Sc (Data Science)</div><div class="subject-desc">2 years — Science</div></div>
+            <div class="subject-card"><div class="subject-icon">⚖️</div><div class="subject-name">M.Com (Finance)</div><div class="subject-desc">2 years — Commerce</div></div>
+            <div class="subject-card"><div class="subject-icon">🌍</div><div class="subject-name">M.A. (International Relations)</div><div class="subject-desc">2 years — Humanities</div></div>
+            <div class="subject-card"><div class="subject-icon">🔭</div><div class="subject-name">M.Phil / Ph.D</div><div class="subject-desc">3–5 years — Research</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="course-sidebar">
+            <h3>Program Details</h3>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Duration</span><span class="sidebar-stat-value">1 – 5 Years</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Mode</span><span class="sidebar-stat-value">On-Campus / Online / Hybrid</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Eligibility</span><span class="sidebar-stat-value">Relevant UG Degree (50%+)</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Annual Fees</span><span class="sidebar-stat-value">₹1,10,000 – ₹2,00,000</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Seats Available</span><span class="sidebar-stat-value">900 Seats</span></div>
+            <div class="sidebar-stat"><span class="sidebar-stat-label">Placement Rate</span><span class="sidebar-stat-value">99%</span></div>
+            <button class="apply-btn" onclick="showPage('contact')">Apply Now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div><div class="footer-brand-name">Eduford University</div><p class="footer-brand-desc">Committed to inspiring minds and transforming lives through world-class education and innovation.</p></div>
+        <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree Courses</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a>📍 Mumbai, India</a></li><li><a>📞 +91 98765 43210</a></li><li><a onclick="showPage('contact')">✉️ Contact Us</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>Made with ❤️ by Tech Code — All Rights Reserved © 2025</span></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="page-hero-tag">Get In Touch</div>
+    <h1>Contact Us</h1>
+    <p>Have questions about admissions, courses, or campus life? We're here to help you every step of the way.</p>
+  </div>
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Home</span> &rsaquo; Contact Us
+  </div>
+  <section style="padding-top:60px; padding-bottom:80px;">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <!-- FORM -->
+        <div class="contact-form">
+          <h2>Send Us a Message</h2>
+          <p>Fill out the form below and our team will get back to you within 24 hours.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name *</label>
+              <input type="text" id="fname" placeholder="e.g. Rahul" />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name *</label>
+              <input type="text" id="lname" placeholder="e.g. Sharma" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-group">
+            <label for="course">Interested In</label>
+            <select id="course">
+              <option value="">-- Select a Program --</option>
+              <option>Under Graduate</option>
+              <option>Degree Course</option>
+              <option>Post Graduate</option>
+              <option>Online Courses</option>
+              <option>General Enquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="campus">Preferred Campus</label>
+            <select id="campus">
+              <option value="">-- Select Campus --</option>
+              <option>Mumbai</option>
+              <option>Agra</option>
+              <option>Uttar Pradesh</option>
+              <option>Kanpur</option>
+              <option>Bangalore</option>
+              <option>Kolkata</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message *</label>
+            <textarea id="message" placeholder="Tell us how we can help you..."></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitForm()">Send Message ✈️</button>
+          <div class="success-msg" id="successMsg">
+            ✅ Thank you! Your message has been sent. We'll get back to you within 24 hours.
+          </div>
+        </div>
+
+        <!-- INFO -->
+        <div class="contact-info">
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-title">Our Headquarters</div>
+              <div class="info-detail">Eduford University, Academic Block,<br>Andheri East, Mumbai – 400069<br>Maharashtra, India</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📞</div>
+            <div>
+              <div class="info-title">Call Us</div>
+              <div class="info-detail">Admissions: +91 98765 43210<br>General: +91 22 4567 8900<br>Mon – Sat, 9:00 AM – 6:00 PM</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">✉️</div>
+            <div>
+              <div class="info-title">Email Us</div>
+              <div class="info-detail">admissions@eduford.edu<br>info@eduford.edu<br>We reply within 24 hours</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">🌐</div>
+            <div>
+              <div class="info-title">Follow Us</div>
+              <div class="info-detail">Instagram: @eduford_university<br>LinkedIn: Eduford University<br>YouTube: Eduford Official</div>
+            </div>
+          </div>
+          <div class="map-embed">
+            <span>🗺️</span>
+            <p>Mumbai Headquarters</p>
+            <div style="font-size:13px; color:var(--muted);">Andheri East, Mumbai – 400069</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div><div class="footer-brand-name">Eduford University</div><p class="footer-brand-desc">Committed to inspiring minds and transforming lives through world-class education and innovation.</p></div>
+        <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('ug')">Under Graduate</a></li><li><a onclick="showPage('degree')">Degree Courses</a></li><li><a onclick="showPage('pg')">Post Graduate</a></li></ul></div>
+        <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a>📍 Mumbai, India</a></li><li><a>📞 +91 98765 43210</a></li><li><a>✉️ info@eduford.edu</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>Made with ❤️ by Tech Code — All Rights Reserved © 2025</span></div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div id="page-admin" class="page">
+  <!-- Login Screen -->
+  <div id="adminLogin" style="padding-top:var(--nav-height); background:var(--bg); min-height:100vh;">
+    <div class="admin-login">
+      <div style="font-size:48px; margin-bottom:16px;">🔐</div>
+      <h2>Admin Panel</h2>
+      <p>Enter your credentials to view form submissions</p>
+      <input type="text" id="adminUser" placeholder="Username" />
+      <input type="password" id="adminPass" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()" />
+      <button onclick="adminLogin()">Login to Admin Panel</button>
+      <div class="login-error" id="loginError">❌ Invalid credentials. Try admin / eduford123</div>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard (shown after login) -->
+  <div id="adminDashboard" style="display:none;">
+    <div class="admin-header">
+      <div style="max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h1>📋 Form Submissions</h1>
+          <p>All contact form entries stored in your browser's localStorage</p>
+        </div>
+        <button class="admin-btn" onclick="adminLogout()" style="background:rgba(255,255,255,0.15);color:white; margin-bottom:4px;">Logout</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <!-- Stats -->
+      <div class="admin-stats" id="adminStats"></div>
+      <!-- Table -->
+      <div class="admin-toolbar">
+        <h2>All Submissions</h2>
+        <div style="display:flex; gap:10px;">
+          <button class="admin-btn btn-export" onclick="exportJSON()">⬇ Export JSON</button>
+          <button class="admin-btn btn-export" onclick="exportCSV()" style="background:#2a7d5e;color:white;">⬇ Export CSV</button>
+          <button class="admin-btn btn-clear" onclick="clearAll()">🗑 Clear All</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <div id="adminTableContainer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<div id="backTop" title="Back to top">↑</div>
+
+<script>
+// PAGE ROUTER
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+    a.classList.toggle('active-link', a.dataset.page === pageId);
+  });
+  closeMenu(); // always close mobile menu on page change
+}
+
+function scrollToSection(pageId, sectionId) {
+  showPage(pageId);
+  setTimeout(() => {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+// HAMBURGER — animated ☰ / ✕ toggle
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function toggleMenu() {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMenu() {
+  mobileMenu.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', toggleMenu);
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (mobileMenu.classList.contains('open') &&
+      !mobileMenu.contains(e.target) &&
+      !hamburger.contains(e.target)) {
+    closeMenu();
+  }
+});
+
+// Close menu on page resize to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeMenu();
+});
+
+// BACK TO TOP
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('show', window.scrollY > 300);
+});
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ===================== CONTACT FORM + LOCALSTORAGE =====================
+const DB_KEY = 'eduford_submissions';
+
+function getSubmissions() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY)) || []; }
+  catch { return []; }
+}
+function saveSubmissions(data) {
+  localStorage.setItem(DB_KEY, JSON.stringify(data));
+}
+
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const course = document.getElementById('course').value;
+  const campus = document.getElementById('campus').value;
+  const message = document.getElementById('message').value.trim();
+
+  if (!fname || !email || !message) {
+    alert('Please fill in your name, email and message before sending.');
+    return;
+  }
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Build record
+  const record = {
+    id: Date.now(),
+    submittedAt: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+    firstName: fname,
+    lastName: lname,
+    email: email,
+    phone: phone || '—',
+    program: course || 'Not specified',
+    campus: campus || 'Not specified',
+    message: message
+  };
+
+  // Save to localStorage
+  const existing = getSubmissions();
+  existing.unshift(record); // newest first
+  saveSubmissions(existing);
+
+  // Show success
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('fname').value = '';
+  document.getElementById('lname').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('phone').value = '';
+  document.getElementById('message').value = '';
+  document.getElementById('course').selectedIndex = 0;
+  document.getElementById('campus').selectedIndex = 0;
+  setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 6000);
+}
+
+// ===================== ADMIN PANEL =====================
+const ADMIN_CREDS = { user: 'admin', pass: 'eduford123' };
+
+function adminLogin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  if (u === ADMIN_CREDS.user && p === ADMIN_CREDS.pass) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+    renderAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+function badgeClass(program) {
+  const p = program.toLowerCase();
+  if (p.includes('under')) return 'badge-ug';
+  if (p.includes('degree')) return 'badge-degree';
+  if (p.includes('post')) return 'badge-pg';
+  if (p.includes('online')) return 'badge-online';
+  return 'badge-general';
+}
+
+function renderAdmin() {
+  const data = getSubmissions();
+  // Stats
+  const programs = {};
+  data.forEach(r => { programs[r.program] = (programs[r.program] || 0) + 1; });
+  const topProgram = Object.entries(programs).sort((a,b) => b[1]-a[1])[0];
+  document.getElementById('adminStats').innerHTML = `
+    <div class="admin-stat-card"><div class="num">${data.length}</div><div class="lbl">Total Submissions</div></div>
+    <div class="admin-stat-card"><div class="num">${data.filter(r=>r.phone!=='—').length}</div><div class="lbl">With Phone</div></div>
+    <div class="admin-stat-card"><div class="num">${topProgram ? topProgram[1] : 0}</div><div class="lbl">Top Program Enquiries</div></div>
+    <div class="admin-stat-card"><div class="num">${[...new Set(data.map(r=>r.campus))].filter(c=>c!=='Not specified').length}</div><div class="lbl">Campuses Requested</div></div>
+  `;
+  // Table
+  const container = document.getElementById('adminTableContainer');
+  if (data.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>No submissions yet. Contact form entries will appear here.</p></div>';
+    return;
+  }
+  let rows = data.map((r, i) => `
+    <tr>
+      <td class="muted">${i+1}</td>
+      <td><strong>${r.firstName} ${r.lastName}</strong><br><span class="muted">${r.submittedAt}</span></td>
+      <td><a href="mailto:${r.email}" style="color:var(--primary);">${r.email}</a></td>
+      <td class="muted">${r.phone}</td>
+      <td><span class="badge ${badgeClass(r.program)}">${r.program}</span></td>
+      <td class="muted">${r.campus}</td>
+      <td style="max-width:220px; word-break:break-word; font-size:13px; color:var(--muted);">${r.message.substring(0,100)}${r.message.length>100?'…':''}</td>
+      <td><button class="delete-btn" onclick="deleteRecord(${r.id})">Delete</button></td>
+    </tr>
+  `).join('');
+  container.innerHTML = `
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Name / Date</th><th>Email</th><th>Phone</th>
+          <th>Program</th><th>Campus</th><th>Message</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function deleteRecord(id) {
+  if (!confirm('Delete this submission?')) return;
+  const data = getSubmissions().filter(r => r.id !== id);
+  saveSubmissions(data);
+  renderAdmin();
+}
+
+function clearAll() {
+  if (!confirm('Are you sure you want to delete ALL submissions? This cannot be undone.')) return;
+  saveSubmissions([]);
+  renderAdmin();
+}
+
+function exportJSON() {
+  const data = getSubmissions();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'eduford_submissions.json';
+  a.click();
+}
+
+function exportCSV() {
+  const data = getSubmissions();
+  if (!data.length) { alert('No data to export.'); return; }
+  const headers = ['#','Date','First Name','Last Name','Email','Phone','Program','Campus','Message'];
+  const rows = data.map((r,i) => [
+    i+1, r.submittedAt, r.firstName, r.lastName,
+    r.email, r.phone, r.program, r.campus,
+    '"' + r.message.replace(/"/g,'""') + '"'
+  ].join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'eduford_submissions.csv';
+  a.click();
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.course-card, .facility-card, .testimonial-card, .campus-card, .subject-card, .info-card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(24px)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(card);
+});
+</script>
+</body>
+</html>
