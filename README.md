@@ -8,7 +8,7 @@ A fully responsive, multi-page college website built with pure **HTML**, **CSS**
 
 ## 🌐 Live Demo
 
-> **[https://neeraj-4425.github.io/rahul-eduford/](https://neeraj-4425.github.io/rahul-eduford/)**
+
 > **[ https://neeraj-4425.github.io/Eduford-College-Website/**
 
 ---
